@@ -11,7 +11,10 @@ export class UserRepo {
     }
 
     getAllusers = async () => {
-        const usersList = await this.userRepo.find()
+        const usersList = await this.userRepo.find({
+            select: {name: true, email: true}, 
+            relations: {posts:true}
+        })
 
         return usersList
     }

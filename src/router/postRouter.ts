@@ -8,6 +8,7 @@ const postController = new PostController()
 const userController = new UserController()
 
 router.post('/create', userController.authToken, postController.create)
+router.get('/', userController.authToken, postController.getPostByUser)
 
 
 export default router

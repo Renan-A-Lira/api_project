@@ -19,7 +19,21 @@ export class PostController {
 
         const createPost = await this.postRepo.createPost(text, userId)
 
+
+        if (!createPost) return res.status(401).json({message: "o post não foi criado"})
+
         return res.status(200).json({createPost})
+
+    }
+
+    getPostByUser = async (req, res) => {
+        const userId = req.user.id
+
+        const posts = await this.postRepo.getPosts(userId)
+
+
+        return res.status(200).json(posts)
+
 
     }
 
