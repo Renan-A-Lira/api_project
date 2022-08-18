@@ -8,21 +8,21 @@ export class PostRepo {
         #postRepo = AppDataSource.getRepository(Post)
         #userRepo = AppDataSource.getRepository(User)
 
+        limit = 10
+
     constructor() {
 
     }
 
     createPost = async (text, userId) => {
-        const post = new Post()
-
-        post.text = text
-
+        
         const user = await this.#userRepo.findOne({
-            where: {id: userId},
-            select: {id: true, email: true, name: true}
+            where: {id: userId}
         })
         if (!user) return null
 
+        const post = new Post()
+        post.text = text
         post.user = user
 
         this.#postRepo.save(post)
@@ -31,6 +31,8 @@ export class PostRepo {
     }
 
     getPosts = async (userId) => {
+
+        if (!userId) return []
 
         const posts = await this.#postRepo.find({
             where: {user: {id: userId}}

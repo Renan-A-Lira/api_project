@@ -12,15 +12,17 @@ export class UserRepo {
 
     getAllusers = async () => {
         const usersList = await this.userRepo.find({
-            select: {name: true, email: true}, 
-            relations: {posts:true}
+            relations: {posts: true}
         })
 
         return usersList
     }
 
     getUser = async (email) => {
-        const user = await this.userRepo.findOneBy({email: email})
+        const user = await this.userRepo.findOne({
+            where: {email},
+            select: {name: true, id: true, email:true, password: true}
+        })
 
         return user || undefined
 

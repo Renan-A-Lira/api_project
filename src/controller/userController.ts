@@ -24,7 +24,7 @@ export class UserController {
             const validPassword = await bcrypt.compare(password, user.password)
             if (validPassword) {
 
-                const token = jwt.sign({id: user.id}, process.env.SECRET, {expiresIn: 5000})
+                const token = jwt.sign({id: user.id}, process.env.SECRET, {expiresIn: '1d'})
                 
 
                 return res.json({auth: true, token})
