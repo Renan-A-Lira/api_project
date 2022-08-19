@@ -3,14 +3,15 @@ import express from 'express'
 import routers from './router'
 import {AppDataSource} from './db'
 
+
 require('dotenv').config({path: __dirname+'/.env'});
 
 const app = express()
 const port = 3000
 
 AppDataSource.initialize()
-    .then(() => {
-        // here you can start to work with your database
+    .then(async () => {
+        
     })
     .catch((error) => console.log(error))
 

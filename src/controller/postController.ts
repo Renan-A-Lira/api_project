@@ -29,12 +29,9 @@ export class PostController {
     getPostByUser = async (req, res) => {
         const userId = req.user.id
 
-        console.log("id" + userId)
         const posts = await this.postRepo.getPosts(userId)
 
-
         return res.status(200).json(posts)
-
 
     }
 
