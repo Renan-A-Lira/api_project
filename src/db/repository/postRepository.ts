@@ -4,6 +4,10 @@ import { User } from "../entity/User";
 
 import bcrypt from 'bcrypt'
 
+interface params {
+    text?: string,
+}
+
 export class PostRepo {
         #postRepo = AppDataSource.getRepository(Post)
         #userRepo = AppDataSource.getRepository(User)
@@ -30,6 +34,32 @@ export class PostRepo {
         return post
     }
 
+    deletePost = async (id, userId) => {
+
+        const post = await this.#getPostByUserId(id, userId)
+
+        if (!post) return null
+
+        this.#postRepo.remove(post)
+
+        return post
+    }
+
+    updatePost = async (id, userId, params: params) => {
+        const post = await this.#getPostByUserId(id, userId)
+
+        if (!post) return null
+
+        this.#postRepo.createQueryBuilder('post')
+        .update()
+        .set({...params})
+        .where('id = :id', {id})
+        .execute()
+
+        return post
+
+    }
+
     getPosts = async (userId) => {
 
         if (!userId) return []
@@ -39,6 +69,14 @@ export class PostRepo {
         })
 
         return posts
+    }
+
+    #getPostByUserId = async (id, userId) => {
+        const post = await this.#postRepo.findOne({
+            where: {id, user: {id: userId}}
+        })
+
+        return post
     }
 
 }

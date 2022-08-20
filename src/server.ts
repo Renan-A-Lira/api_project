@@ -2,6 +2,7 @@ import "reflect-metadata"
 import express from 'express'
 import routers from './router'
 import {AppDataSource} from './db'
+import clc from 'cli-color'
 
 
 require('dotenv').config({path: __dirname+'/.env'});
@@ -20,4 +21,5 @@ app.use(express.json())
 app.use(routers)
 app.get('/', (req, res) => res.status(200).json({'message': 'ok'}))
 
-app.listen(port, () => console.log('Servidor rodando 🚀...'))
+let msg = clc.xterm(176)
+app.listen(port, () => console.log(`${msg.bold('Servidor rodando')} 🚀\n ${clc.bold.italic(`http://localhost:${port}`)}`))

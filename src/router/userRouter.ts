@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { UserController } from "../controller/userController";
-
+import { authToken } from "../middlewares/authMiddleware";
 const router = Router()
 
 const userController = new UserController()
@@ -8,7 +8,9 @@ const userController = new UserController()
 
 router.post('/signin', userController.signin)
 router.post('/signup', userController.signup)
-router.put('/logout', userController.authToken, userController.logout)
-router.get('/', userController.authToken, userController.allUser)
+
+router.use(authToken)
+router.put('/logout', userController.logout)
+router.get('/', userController.allUser)
 
 export default router

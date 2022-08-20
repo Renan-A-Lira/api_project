@@ -1,14 +1,16 @@
 import { Router } from "express";
 import { PostController } from "../controller/postController";
-import { UserController } from "../controller/userController";
+import { authToken } from "../middlewares/authMiddleware";
 
 const router = Router()
 
 const postController = new PostController()
-const userController = new UserController()
 
-router.post('/create', userController.authToken, postController.create)
-router.get('/', userController.authToken, postController.getPostByUser)
+router.use(authToken)
+router.put('/update/:id', postController.update)
+router.delete('/delete/:id', postController.delete)
+router.post('/create', postController.create)
+router.get('/', postController.getPostByUser)
 
 
 export default router
