@@ -13,5 +13,11 @@ export class Post {
     @Column({type: "text"})
     text: string
 
+    @Column({nullable: true})
+    imageUrl: string
+
+    
+    
+
     
 }

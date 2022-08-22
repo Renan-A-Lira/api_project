@@ -4,6 +4,8 @@ import routers from './router'
 import {AppDataSource} from './db'
 import clc from 'cli-color'
 
+import path from 'path'
+
 
 require('dotenv').config({path: __dirname+'/.env'});
 
@@ -17,8 +19,11 @@ AppDataSource.initialize()
     .catch((error) => console.log(error))
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 
 app.use(routers)
+
+app.use(express.static(path.resolve(__dirname, '..', 'tmp')));
 app.get('/', (req, res) => res.status(200).json({'message': 'ok'}))
 
 let msg = clc.xterm(176)

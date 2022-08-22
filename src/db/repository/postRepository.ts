@@ -18,7 +18,7 @@ export class PostRepo {
 
     }
 
-    createPost = async (text, userId) => {
+    createPost = async (text, filename, originalname, userId) => {
         
         const user = await this.#userRepo.findOne({
             where: {id: userId}
@@ -27,6 +27,7 @@ export class PostRepo {
 
         const post = new Post()
         post.text = text
+        post.imageUrl = '/uploads/' + filename
         post.user = user
 
         this.#postRepo.save(post)
