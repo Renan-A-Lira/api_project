@@ -5,6 +5,7 @@ import {AppDataSource} from './db'
 import clc from 'cli-color'
 
 import path from 'path'
+import { pathLog } from "./middlewares/pathMiddleware"
 
 
 require('dotenv').config({path: __dirname+'/.env'});
@@ -21,6 +22,7 @@ AppDataSource.initialize()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
+app.use(pathLog)
 app.use(routers)
 
 app.use(express.static(path.resolve(__dirname, '..', 'tmp')));

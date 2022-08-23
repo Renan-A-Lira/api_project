@@ -10,7 +10,7 @@ const router = Router()
 const postController = new PostController()
 
 router.use(authToken)
-router.put('/update/:id', postController.update)
+router.put('/update/:id', multer(multerConfig).single('file'), postController.update)
 router.delete('/delete/:id', postController.delete)
 router.post('/create', multer(multerConfig).single('file') , postController.create)
 router.get('/', postController.getPostByUser)

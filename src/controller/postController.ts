@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 
 import { PostRepo } from "../db/repository/postRepository";
 
+
 export class PostController {
 
     postRepo = new PostRepo()
@@ -15,9 +16,13 @@ export class PostController {
     update = async (req, res) => {
         const idPost = req.params.id
         const userId = req.user.id
-        const {text} = req.body
+        
+        const obj = {
+            filename: req.file ? req.file.filename : null,
+            text: req.body.text ? req.body.text : null
+        }
 
-        const post = await this.postRepo.updatePost(idPost, userId, {text})
+        const post = await this.postRepo.updatePost(idPost, userId, obj)
 
         if (!post) return res.status(404)
 

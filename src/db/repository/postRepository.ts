@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt'
 
 interface params {
     text?: string,
+    filename?: string
 }
 
 export class PostRepo {
@@ -51,9 +52,12 @@ export class PostRepo {
 
         if (!post) return null
 
+        let imageUrl = '/uploads/' + params.filename
+
+
         this.#postRepo.createQueryBuilder('post')
         .update()
-        .set({...params})
+        .set({text: params.text || post.text, imageUrl: params.filename ? imageUrl : post.imageUrl})
         .where('id = :id', {id})
         .execute()
 
