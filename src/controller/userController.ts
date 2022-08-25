@@ -66,6 +66,34 @@ export class UserController {
         return res.status(200).json(usersList)
     }
 
+    upPassword = async (req, res: Response) => {
+
+        const {email, password, newPassword} = req.body
+        const user = await this.userRepo.getUser(email)
+
+        if(user && req.user.id == user.id) {
+
+            const validPassword = await bcrypt.compare(password, user.password)
+            if (validPassword) {
+
+                console.log(newPassword)
+
+                await this.userRepo.updatePassword(req.user.id, newPassword)
+                
+
+                return res.json({message: 'senha aterada com sucesso'})
+            } else {
+
+                return res.status(401).json({message: "senha incorreta"})
+            }
+
+            
+        } else {
+            return res.status(401).json({message: "ocorreu um erro"})
+        }
+
+    }
+
 
     
 }
